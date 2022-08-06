@@ -9,57 +9,62 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: transactions.map((tx) {
-        return Card(
-          child: Row(
-            children: <Widget>[
-              Container(
-                width: 125,
-                margin: EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 15,
-                ),
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.purple,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(5)),
-                child: Text(
-                  //tx.amount.toString(),
-                  '₹ ${tx.amount}',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Colors.purple),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    tx.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+    return Container(
+      height: 500,
+      child: ListView(
+        /*ListView - Column or row with a SingleChildScrollableView - to give scrolling to a specific item */
+        /*ListView always needed a fixed height wrapper*/
+        children: transactions.map((tx) {
+          return Card(
+            child: Row(
+              children: <Widget>[
+                Container(
+                  width: 125,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 15,
                   ),
-                  Text(
-                    //tx.date.toString(),
-                    DateFormat.yMMMd().format(tx.date),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.purple,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Text(
+                    //tx.amount.toString(),
+                    '₹ ${tx.amount}',
                     style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                    ),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.purple),
                   ),
-                ],
-              ),
-            ],
-          ),
-        );
-      }).toList(),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      tx.title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      //tx.date.toString(),
+                      DateFormat.yMMMd().format(tx.date),
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }
