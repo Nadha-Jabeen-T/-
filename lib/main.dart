@@ -22,24 +22,27 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Flutter App'),
       ),
-      body: Center(
-        //THE STATISTICS CHART
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Card(
-              color: Colors.amber,
-              child: Container(
-                width: double.infinity,
-                child: Text('CHART!'),
-              ),
-              elevation: 5,
-            ), //
-            //THE INPUT 'ADD-TRANSACTION' AREA
-            //THE TRANSACTIONS
-            UserTransaction(),
-          ],
+      body: SingleChildScrollView(
+        /*SingleChildScrollView - Only works at the Whole body level */
+        child: Center(
+          //THE STATISTICS CHART
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Card(
+                color: Colors.amber,
+                child: Container(
+                  width: double.infinity,
+                  child: Text('CHART!'),
+                ),
+                elevation: 5,
+              ), //
+              //THE INPUT 'ADD-TRANSACTION' AREA
+              //THE TRANSACTIONS
+              UserTransaction(),
+            ],
+          ),
         ),
       ),
     );
