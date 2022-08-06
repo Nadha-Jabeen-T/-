@@ -1,6 +1,8 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import '../models/transaction.dart';
 
 class TransactionList extends StatefulWidget {
@@ -11,7 +13,7 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionListState extends State<TransactionList> {
-  final List<Transaction> _userTransaction = [
+  final List<Transaction> _userTransactions = [
     Transaction(
       id: 't1',
       title: 'Gold Jimki',
@@ -33,6 +35,57 @@ class _TransactionListState extends State<TransactionList> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: _userTransactions.map((tx) {
+        return Card(
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 125,
+                margin: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 15,
+                ),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.purple,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(5)),
+                child: Text(
+                  //tx.amount.toString(),
+                  '₹ ${tx.amount}',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.purple),
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    tx.title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    //tx.date.toString(),
+                    DateFormat.yMMMd().format(tx.date),
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    );
   }
 }
