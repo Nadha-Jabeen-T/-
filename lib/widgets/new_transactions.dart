@@ -2,29 +2,20 @@ import 'package:flutter/material.dart';
 
 /*To hold the input transactions */
 
-class NewTransaction extends StatelessWidget {
-  /*Taking and manipulating user input -- ALL the INPUTS are BY DEFAULT STRING*/
-  //String? titleInput;
-  //String? amountInput;
-
-  /*alternate way of accepting user input with each key stroke*/
-  /*These controllers saves the user input to the controller handle */
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
-
-  /*Shows a sheet, when the floating action button is pressed */
-  void startAddNewTransaction(BuildContext ctx) {
-    /*startAddNewTransaction takes the context of the "Transaction sheet" => give it to showModalBottomSheet, which accepts that context -> and give it to builder*/
-    showModalBottomSheet(
-        context: ctx,
-        builder: (bCtx) {
-          return NewTransaction(addTx);
-        });
-  }
-
-  /* Function pointer to get the added new transaction*/
+/*THE WIDGET CLASS */
+class NewTransaction extends StatefulWidget {
   final Function addTx;
   NewTransaction(this.addTx);
+
+  @override
+  State<NewTransaction> createState() => _NewTransactionState();
+}
+
+/*THE STATE CLASS */
+class _NewTransactionState extends State<NewTransaction> {
+  /*Taking and manipulating user input -- ALL the INPUTS are BY DEFAULT STRING*/
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   /*the submitting data function and validation*/
   void submitData() {
@@ -34,10 +25,12 @@ class NewTransaction extends StatelessWidget {
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
     }
-    addTx(
+    /*When changed from stateless to stateful, there comes a separation b/w widget class and state class, so to connect the widgets we use "widget." */
+    widget.addTx(
       enteredTitle,
       enteredAmount,
     );
+    Navigator.of(context).pop();
   }
 
   @override

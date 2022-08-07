@@ -1,5 +1,8 @@
-import 'package:expense_planner/widgets/user_transactions.dart';
 import 'package:flutter/material.dart';
+
+import 'models/transaction.dart';
+import 'widgets/transaction_list.dart';
+import 'widgets/new_transactions.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,16 +18,68 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _userTransactions = [
+    Transaction(
+      id: 't1',
+      title: 'Gold Jimki',
+      amount: 125,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Metal bangles',
+      amount: 80,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'Bait-AL-Mandi Alfaham',
+      amount: 369.99,
+      date: DateTime.now(),
+    )
+  ];
+  void _addNewTransaction(String txTitle, double txAmount) {
+    final newTx = Transaction(
+      id: DateTime.now().toString(),
+      title: txTitle,
+      amount: txAmount,
+      date: DateTime.now(),
+    );
+
+    setState(() {
+      _userTransactions.add(newTx);
+    });
+  }
+
+  /*Shows a sheet, when the floating action button is pressed */
+  void _startAddNewTransaction(BuildContext ctx) {
+    /*startAddNewTransaction takes the context of the "Transaction sheet" => give it to showModalBottomSheet, which accepts that context -> and give it to builder*/
+    showModalBottomSheet(
+        context: ctx,
+        builder: (bCtx) {
+          return GestureDetector(
+            onTap: (() {}),
+            child: NewTransaction(_addNewTransaction),
+            behavior: HitTestBehavior.opaque,
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Text('Almanac'),
         backgroundColor: Colors.purple,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => _startAddNewTransaction(context),
             icon: Icon(Icons.add),
           )
         ],
@@ -47,14 +102,14 @@ class MyHomePage extends StatelessWidget {
               ), //
               //THE INPUT 'ADD-TRANSACTION' AREA
               //THE TRANSACTIONS
-              UserTransaction(),
+              TransactionList(_userTransactions),
             ],
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => _startAddNewTransaction(context),
         child: Icon(Icons.add),
         backgroundColor: Colors.purple,
       ),

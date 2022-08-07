@@ -1,7 +1,6 @@
 import 'package:expense_planner/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../widgets/user_transactions.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
@@ -10,7 +9,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
+      height: 300,
       child: ListView.builder(
         /*ListView - Column or row with a SingleChildScrollableView - to give scrolling to a specific item */
         /*ListView always needed a fixed height wrapper*/
