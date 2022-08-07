@@ -10,11 +10,12 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
-      child: ListView(
+      height: 400,
+      child: ListView.builder(
         /*ListView - Column or row with a SingleChildScrollableView - to give scrolling to a specific item */
         /*ListView always needed a fixed height wrapper*/
-        children: transactions.map((tx) {
+        itemBuilder: (ctx, index) {
+          /*ListView builder takes the context(position of item in the widget tree) and index of item to be shown on screen */
           return Card(
             child: Row(
               children: <Widget>[
@@ -33,7 +34,7 @@ class TransactionList extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5)),
                   child: Text(
                     //tx.amount.toString(),
-                    '₹ ${tx.amount}',
+                    '₹ ${transactions[index].amount.toStringAsFixed(2)}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -44,7 +45,7 @@ class TransactionList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      tx.title,
+                      transactions[index].title,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -52,7 +53,7 @@ class TransactionList extends StatelessWidget {
                     ),
                     Text(
                       //tx.date.toString(),
-                      DateFormat.yMMMd().format(tx.date),
+                      DateFormat.yMMMd().format(transactions[index].date),
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 14,
@@ -63,7 +64,9 @@ class TransactionList extends StatelessWidget {
               ],
             ),
           );
-        }).toList(),
+        },
+        itemCount: transactions.length,
+        //children: transactions.map((tx) {}).toList(),--No need of mapping
       ),
     );
   }
