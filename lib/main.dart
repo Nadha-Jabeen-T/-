@@ -13,6 +13,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Almanac',
+      /*GLOBAL THEMING */
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber[600],
+        /*Based on primary color, Bt different shades */
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 18,
+            )),
+        appBarTheme: AppBarTheme(
+            titleTextStyle: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 20,
+                fontWeight: FontWeight.bold)),
+      ),
       home: MyHomePage(),
     );
   }
@@ -25,7 +42,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(
+    /*Transaction(
       id: 't1',
       title: 'Gold Jimki',
       amount: 125,
@@ -42,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Bait-AL-Mandi Alfaham',
       amount: 369.99,
       date: DateTime.now(),
-    )
+    )*/
   ];
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
@@ -76,7 +93,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Almanac'),
-        backgroundColor: Colors.purple,
         actions: [
           IconButton(
             onPressed: () => _startAddNewTransaction(context),
@@ -111,7 +127,6 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => _startAddNewTransaction(context),
         child: Icon(Icons.add),
-        backgroundColor: Colors.purple,
       ),
     );
   }
