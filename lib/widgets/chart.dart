@@ -1,4 +1,5 @@
 import 'package:expense_planner/models/transaction.dart';
+import 'package:expense_planner/widgets/chart_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -6,7 +7,7 @@ class Chart extends StatelessWidget {
   final List<Transaction> recentTransactions;
   Chart(this.recentTransactions);
 
-/*Getter - Property which is calculated dynamically -- Doubt WHAT IS GETTER?*/
+/*Getter - Property which is calculated dynamically -- Getter that generates last 7 days and amount spend in each day as a map*/
   List<Map<String, Object>> get groupedTransactionValues {
     return List.generate(7, (index) {
       final weekDay = DateTime.now().subtract(
@@ -22,7 +23,17 @@ class Chart extends StatelessWidget {
       }
       print(DateFormat.E().format(weekDay));
       print('Total sum = $totalSum');
-      return {'day': DateFormat.E().format(weekDay), 'amount': totalSum};
+      return {
+        'day': DateFormat.E().format(weekDay).substring(0, 1),
+        'amount': totalSum,
+      };
+    });
+  } //GETTER ends
+
+/*GETTER to find the sum of total amount in those displayed 7 days */
+  double get totalSpending {
+    return groupedTransactionValues.fold(0.0, (sum, item) {
+      return sum + (item['amount'] as double);
     });
   }
 
@@ -32,8 +43,22 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),
-      child: Row(
-        children: [],
+      child: Container(
+        padding: EdgeInsets.all(5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransactionValues.map((data) {
+            return Flexible(
+              fit: FlexFit.tight, //child can't grow
+              child: ChartBar(
+                  data['day'].toString(),
+                  (data['amount'] as double),
+                  totalSpending == 0.0
+                      ? 0.0
+                      : (data['amount'] as double) / totalSpending),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
