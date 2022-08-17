@@ -18,13 +18,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
         accentColor: Colors.amber[600],
+        errorColor: Colors.red,
         /*Based on primary color, Bt different shades */
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 18,
-            )),
+              headline6: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+              ),
+              button: TextStyle(color: Colors.white),
+            ),
         appBarTheme: AppBarTheme(
             titleTextStyle: TextStyle(
                 fontFamily: 'OpenSans',
@@ -71,12 +74,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
       title: txTitle,
       amount: txAmount,
-      date: DateTime.now(),
+      date: chosenDate,
     );
 
     setState(() {
@@ -88,14 +92,21 @@ class _MyHomePageState extends State<MyHomePage> {
   void _startAddNewTransaction(BuildContext ctx) {
     /*startAddNewTransaction takes the context of the "Transaction sheet" => give it to showModalBottomSheet, which accepts that context -> and give it to builder*/
     showModalBottomSheet(
-        context: ctx,
-        builder: (bCtx) {
-          return GestureDetector(
-            onTap: (() {}),
-            child: NewTransaction(_addNewTransaction),
-            behavior: HitTestBehavior.opaque,
-          );
-        });
+      context: ctx,
+      builder: (bCtx) {
+        return GestureDetector(
+          onTap: (() {}),
+          child: NewTransaction(_addNewTransaction),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
+  } /*Function to delete the transaction */
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == id);
+    });
   }
 
   @override
@@ -121,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Chart(_recentTransactions),
               //THE INPUT 'ADD-TRANSACTION' AREA
               //THE TRANSACTIONS
-              TransactionList(_userTransactions),
+              TransactionList(_userTransactions, _deleteTransaction),
             ],
           ),
         ),
