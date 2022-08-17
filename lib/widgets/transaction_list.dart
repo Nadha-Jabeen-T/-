@@ -36,6 +36,30 @@ class TransactionList extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 /*ListView builder takes the context(position of item in the widget tree) and index of item to be shown on screen */
                 return Card(
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 5,
+                    horizontal: 8,
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text(
+                              '₹ ${transactions[index].amount.toStringAsFixed(2)}'),
+                        ),
+                      ),
+                    ),
+                    title: Text(transactions[index].title,
+                        style: Theme.of(context).textTheme.headline6),
+                    subtitle: Text(
+                      DateFormat.yMMMd().format(transactions[index].date),
+                    ),
+                  ),
+                );
+                /*return Card(
                   child: Row(
                     children: <Widget>[
                       Container(
@@ -77,7 +101,7 @@ class TransactionList extends StatelessWidget {
                       ),
                     ],
                   ),
-                );
+                );*/
               },
               itemCount: transactions.length,
               //children: transactions.map((tx) {}).toList(),--No need of mapping
