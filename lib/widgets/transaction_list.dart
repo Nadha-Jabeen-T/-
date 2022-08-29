@@ -9,63 +9,63 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 450,
-      child: transactions.isEmpty
-          ? Column(
-              children: [
-                Text(
-                  'No transactions added yet :-(',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                SizedBox(
-                  height: 10, /*Separator */
-                ),
-                Container(
-                  height: 200,
-                  child: Image.asset(
-                    'assets/images/waiting.png',
-                    fit: BoxFit
-                        .cover, //But to cover the area , it needed a fixed width container
+    return
+        /*fixed height dosen't allow to scroll in the landscape mode*/
+        transactions.isEmpty
+            ? Column(
+                children: [
+                  Text(
+                    'No transactions added yet :-(',
+                    style: Theme.of(context).textTheme.headline6,
                   ),
-                )
-              ],
-            )
-          : ListView.builder(
-              /*ListView - Column or row with a SingleChildScrollableView - to give scrolling to a specific item */
-              /*ListView always needed a fixed height wrapper*/
-              itemBuilder: (ctx, index) {
-                /*ListView builder takes the context(position of item in the widget tree) and index of item to be shown on screen */
-                return Card(
-                  elevation: 5,
-                  margin: EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 8,
+                  SizedBox(
+                    height: 10, /*Separator */
                   ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      child: Padding(
-                        padding: EdgeInsets.all(6),
-                        child: FittedBox(
-                          child: Text(
-                              '₹ ${transactions[index].amount.toStringAsFixed(2)}'),
+                  Container(
+                    height: 200,
+                    child: Image.asset(
+                      'assets/images/waiting.png',
+                      fit: BoxFit
+                          .cover, //But to cover the area , it needed a fixed width container
+                    ),
+                  )
+                ],
+              )
+            : ListView.builder(
+                /*ListView - Column or row with a SingleChildScrollableView - to give scrolling to a specific item */
+                /*ListView always needed a fixed height wrapper*/
+                itemBuilder: (ctx, index) {
+                  /*ListView builder takes the context(position of item in the widget tree) and index of item to be shown on screen */
+                  return Card(
+                    elevation: 5,
+                    margin: EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 8,
+                    ),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: Padding(
+                          padding: EdgeInsets.all(6),
+                          child: FittedBox(
+                            child: Text(
+                                '₹ ${transactions[index].amount.toStringAsFixed(2)}'),
+                          ),
                         ),
                       ),
+                      title: Text(transactions[index].title,
+                          style: Theme.of(context).textTheme.headline6),
+                      subtitle: Text(
+                        DateFormat.yMMMd().format(transactions[index].date),
+                      ),
+                      trailing: IconButton(
+                        onPressed: () => deleteTx(transactions[index].id),
+                        icon: Icon(Icons.delete),
+                        color: Theme.of(context).errorColor,
+                      ),
                     ),
-                    title: Text(transactions[index].title,
-                        style: Theme.of(context).textTheme.headline6),
-                    subtitle: Text(
-                      DateFormat.yMMMd().format(transactions[index].date),
-                    ),
-                    trailing: IconButton(
-                      onPressed: () => deleteTx(transactions[index].id),
-                      icon: Icon(Icons.delete),
-                      color: Theme.of(context).errorColor,
-                    ),
-                  ),
-                );
-                /*return Card(
+                  );
+                  /*return Card(
                   child: Row(
                     children: <Widget>[
                       Container(
@@ -108,10 +108,9 @@ class TransactionList extends StatelessWidget {
                     ],
                   ),
                 );*/
-              },
-              itemCount: transactions.length,
-              //children: transactions.map((tx) {}).toList(),--No need of mapping
-            ),
-    );
+                },
+                itemCount: transactions.length,
+                //children: transactions.map((tx) {}).toList(),--No need of mapping
+              );
   }
 }

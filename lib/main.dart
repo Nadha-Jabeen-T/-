@@ -111,16 +111,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: Text('Almanac'),
+      actions: [
+        IconButton(
+          onPressed: () => _startAddNewTransaction(context),
+          icon: Icon(Icons.add),
+        )
+      ],
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Almanac'),
-        actions: [
-          IconButton(
-            onPressed: () => _startAddNewTransaction(context),
-            icon: Icon(Icons.add),
-          )
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         /*SingleChildScrollView - Only works at the Whole body level */
         child: Center(
@@ -129,10 +130,22 @@ class _MyHomePageState extends State<MyHomePage> {
             //mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Chart(_recentTransactions),
+              /*THE CHART */
+              Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height -
+                          MediaQuery.of(context).padding.top) *
+                      0.27,
+                  child: Chart(_recentTransactions)),
               //THE INPUT 'ADD-TRANSACTION' AREA
-              //THE TRANSACTIONS
-              TransactionList(_userTransactions, _deleteTransaction),
+              //THE TRANSACTIONS-LIST
+              Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height -
+                          MediaQuery.of(context).padding.top) *
+                      0.73,
+                  child:
+                      TransactionList(_userTransactions, _deleteTransaction)),
             ],
           ),
         ),
