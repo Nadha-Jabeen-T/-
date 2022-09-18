@@ -1,11 +1,18 @@
 import 'package:expense_planner/widgets/chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'models/transaction.dart';
 import 'widgets/transaction_list.dart';
 import 'widgets/new_transactions.dart';
 
 void main() {
+  /*to set to only portrait mode */
+  /*WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]);*/
   runApp(MyApp());
 }
 
@@ -65,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
       date: DateTime.now(),
     )*/
   ];
+  bool _showChart = false;
 //Getter
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
@@ -130,22 +138,37 @@ class _MyHomePageState extends State<MyHomePage> {
             //mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Show chart"),
+                  Switch(
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          _showChart = val;
+                        });
+                      })
+                ],
+              ),
               /*THE CHART */
-              Container(
-                  height: (MediaQuery.of(context).size.height -
-                          appBar.preferredSize.height -
-                          MediaQuery.of(context).padding.top) *
-                      0.27,
-                  child: Chart(_recentTransactions)),
-              //THE INPUT 'ADD-TRANSACTION' AREA
-              //THE TRANSACTIONS-LIST
-              Container(
-                  height: (MediaQuery.of(context).size.height -
-                          appBar.preferredSize.height -
-                          MediaQuery.of(context).padding.top) *
-                      0.73,
-                  child:
-                      TransactionList(_userTransactions, _deleteTransaction)),
+              _showChart
+                  ? Container(
+                      height: (MediaQuery.of(context).size.height -
+                              appBar.preferredSize.height -
+                              MediaQuery.of(context).padding.top) *
+                          0.27,
+                      child: Chart(_recentTransactions))
+                  :
+                  //THE INPUT 'ADD-TRANSACTION' AREA
+                  //THE TRANSACTIONS-LIST
+                  Container(
+                      height: (MediaQuery.of(context).size.height -
+                              appBar.preferredSize.height -
+                              MediaQuery.of(context).padding.top) *
+                          0.73,
+                      child: TransactionList(
+                          _userTransactions, _deleteTransaction)),
             ],
           ),
         ),
